@@ -40,7 +40,7 @@
         // get width/height ratio (ar image will have same size as marker)
         let h = this.height;
         let w = this.width;
-        if (h < w) {
+        if (h > w) {
           h = Math.round(h / w * 100) / 100;
           w = 1;
         } else {
