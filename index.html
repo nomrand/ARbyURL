@@ -61,9 +61,8 @@
           aassets.append(asset);
         });
 
-        let primtive = $("<a-obj-model>");
-        primtive.attr("src", "#obj" + idnum);
-        primtive.attr("mtl", "#mtl" + idnum);
+        let primtive = $("<a-entity>");
+        primtive.attr("obj-model", "obj: #obj" + idnum + "; mtl: #mtl" + idnum);
         amarker.append(primtive);
       }
     }
@@ -91,7 +90,7 @@
       <a-image src="#my-image"></a-image>
     -->
     <!-- for 3D Object
-      <a-obj-model src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
+      <a-entity obj-model="obj: #tree-obj; mtl: #tree-mtl"></a-entity>
     -->
     <!-- for Video
       <a-video src="#penguin-sledding" width="16" height="9" position="-90 0 0"></a-video>
