@@ -1,5 +1,5 @@
 let data = [
-    { image: "https://nomrand.github.io/ARbyURL/marker_images/000.png", },
+    { model: "https://nomrand.github.io/ARbyURL/models/pika/pikachum", },
     { image: "https://nomrand.github.io/ARbyURL/marker_images/001.png", },
     { image: "https://nomrand.github.io/ARbyURL/marker_images/002.png", },
     { image: "https://nomrand.github.io/ARbyURL/marker_images/003.png", },

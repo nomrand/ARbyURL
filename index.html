@@ -12,53 +12,95 @@
     for (let i = 0; i < data.length; i++) {
       // a-camera
       // for barcode marker
-      // http://au.gmented.com/app/marker/marker.php
+      // markers created by "http://au.gmented.com/app/marker/marker.php"
       let amarker = $("<a-marker type='barcode' value='" + i + "'>");
       // // for preset marker
       // let amarker = $("<a-marker preset='" + data[i].preset + "'>");
       $("a-scene").append(amarker);
+      // idnum must be 3 digit
+      let idnum = "000" + i;
+      idnum = idnum.substring(idnum.length - 3, idnum.length);
 
-      // image asset
-      let img = $("<img crossorigin='anonymous'>");
-      let idstr = "img000" + i;
-      idstr = idstr.substring(idstr.length - 6, idstr.length);
-      img.attr("id", idstr);
-      img.attr("src", data[i].image);
+      if (data[i].image) {
+        // image asset
+        let img = $("<img crossorigin='anonymous'>");
+        let idstr = "img" + idnum;
+        img.attr("id", idstr);
+        img.attr("src", data[i].image);
 
-      // image force load
-      img.on("load", function () {
-        // a-image using asset
-        // to get width/height, creation must start after asset loaded
-        let aimage = $("<a-image>");
-        aimage.attr("src", "#" + idstr);
-        let params = $(location).attr('search');
-        if (params.indexOf('rotatex=yes') > 0) {
-          // ar on the marker
-          aimage.attr("rotation", "-90 0 0");
-        }
+        img.on("load", function () {
+          // a-image using asset
+          // to get width/height, creation must start after asset loaded
+          let aimage = $("<a-image>");
+          aimage.attr("src", "#" + idstr);
+          let params = $(location).attr('search');
+          if (params.indexOf('rotatex=yes') > 0) {
+            // AR on the marker
+            aimage.attr("rotation", "-90 0 0");
+          }
 
-        // get width/height ratio (ar image will have same size as marker)
-        let h = this.height;
-        let w = this.width;
-        if (h > w) {
-          h = Math.round(h / w * 100) / 100;
-          w = 1;
-        } else {
-          w = Math.round(w / h * 100) / 100;
-          h = 1;
-        }
-        aimage.attr("width", w);
-        aimage.attr("height", h);
-        amarker.append(aimage);
-      });
-      aassets.append(img);
+          // get width/height ratio (AR image will have same size as marker)
+          let orgsize = 200;
+          let h = this.height / orgsize;
+          let w = this.width / orgsize;
+          h = Math.round(h * 100) / 100;
+          w = Math.round(w * 100) / 100;
+          aimage.attr("width", w);
+          aimage.attr("height", h);
+          amarker.append(aimage);
+        });
+        aassets.append(img);
+      }
+
+      if (data[i].model) {
+        // 3d asset
+        ["obj", "mtl"].forEach(function (kind) {
+          let asset = $("<a-asset-item>");
+          asset.attr("id", kind + idnum);
+          asset.attr("src", data[i].model + "." + kind);
+          aassets.append(asset);
+        });
+
+        let primtive = $("<a-obj-model>");
+        primtive.attr("src", "#obj" + idnum);
+        primtive.attr("mtl", "#mtl" + idnum);
+        amarker.append(primtive);
+      }
     }
   });
 </script>
 
 <body style='margin : 0px; overflow: hidden;'>
   <a-scene embedded arjs='detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_9_3; debugUIEnabled:false;'>
-    <a-assets></a-assets>
+    <!-- ASSETS (resources) -->
+    <a-assets>
+      <!-- for Image
+        <img id="my-image" src="image.png">
+      -->
+      <!-- for 3D Object
+        <a-asset-item id="crate-obj" src="crate.obj"></a-asset-item>
+        <a-asset-item id="crate-mtl" src="crate.mtl"></a-asset-item>
+      -->
+      <!-- for Video
+        <video id="penguin-sledding" autoplay loop="true" src="penguin-sledding.mp4"></video>
+      -->
+    </a-assets>
+
+    <!-- PRIMITIVES (AR displayed images) -->
+    <!-- for Image
+      <a-image src="#my-image"></a-image>
+    -->
+    <!-- for 3D Object
+      <a-obj-model src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
+    -->
+    <!-- for Video
+      <a-video src="#penguin-sledding" width="16" height="9" position="-90 0 0"></a-video>
+    -->
+    <!-- for Sound
+      <a-sound src="src: url(xxx.mp3)" autoplay="true" position="0 2 5"></a-sound>
+    -->
+
+    <!-- CAMERA -->
     <a-entity camera></a-entity>
   </a-scene>
 </body>
