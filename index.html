@@ -54,16 +54,15 @@
 
       if (data[i].model) {
         // 3d asset
-        ["obj", "mtl"].forEach(function (kind) {
+        ["obj"].forEach(function (kind) {
           let asset = $("<a-asset-item>");
           asset.attr("id", kind + idnum);
-          asset.attr("src", data[i].model + "." + kind);
+          asset.attr("src", data[i].model);
           aassets.append(asset);
         });
 
-        let primtive = $("<a-entity>");
-        primtive.attr("obj-model", "obj: #obj" + idnum + "; mtl: #mtl" + idnum);
-        amarker.append(primtive);
+        let primitive = $("<a-entity gltf-model=#obj" + idnum + " />");
+        amarker.append(primitive);
       }
     }
   });
@@ -79,6 +78,7 @@
       <!-- for 3D Object
         <a-asset-item id="crate-obj" src="crate.obj"></a-asset-item>
         <a-asset-item id="crate-mtl" src="crate.mtl"></a-asset-item>
+        <a-asset-item id="modelgltf" src="xxx.gltf"></a-asset-item>
       -->
       <!-- for Video
         <video id="penguin-sledding" autoplay loop="true" src="penguin-sledding.mp4"></video>
@@ -90,6 +90,7 @@
       <a-image src="#my-image"></a-image>
     -->
     <!-- for 3D Object
+      <a-entity gltf-model="#modelgltf"></a-entity>
       <a-entity obj-model="obj: #tree-obj; mtl: #tree-mtl"></a-entity>
     -->
     <!-- for Video
