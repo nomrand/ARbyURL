@@ -1,5 +1,5 @@
 let data = [
-    "ar/pikachu.png",
-    "ar/pug/pug.gltf",
-    "ar/desk/model.gltf",
+    "AR/pikachu.png",
+    "AR/eevee.jpg",
+    "AR/pug/pug.gltf",
 ];
