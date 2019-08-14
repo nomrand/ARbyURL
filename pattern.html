@@ -10,6 +10,7 @@
 
 <script type="text/javascript">
   $(function () {
+    let isRotate = true;
     let aassets = $("a-assets");
 
     for (let i = 0; i < data.length; i++) {
@@ -39,13 +40,13 @@
           let aimage = $("<a-image>");
           aimage.attr("src", "#" + idstr);
           let params = $(location).attr('search');
-          if (params.indexOf('rotatex=yes') > 0) {
+          if (isRotate || params.indexOf('rotatex=yes') > 0) {
             // AR on the marker
             aimage.attr("rotation", "-90 0 0");
           }
 
           // get width/height ratio (AR image will have same size as marker)
-          let orgsize = 200;
+          let orgsize = 512;
           let h = this.height / orgsize;
           let w = this.width / orgsize;
           h = Math.round(h * 100) / 100;
