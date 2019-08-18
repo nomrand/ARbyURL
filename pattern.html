@@ -79,12 +79,36 @@
       <!-- for Image
         <img id="my-image" src="image.png">
       -->
+      <!-- for 3D Object
+        <a-asset-item id="crate-obj" src="crate.obj"></a-asset-item>
+        <a-asset-item id="crate-mtl" src="crate.mtl"></a-asset-item>
+        <a-asset-item id="modelgltf" src="xxx.gltf"></a-asset-item>
+      -->
+      <!-- for Video
+        <video id="penguin-sledding" autoplay loop="true" src="penguin-sledding.mp4"></video>
+      -->
     </a-assets>
 
     <!-- PRIMITIVES (AR displayed images) -->
     <!-- for Image
       <a-marker type='pattern' url='pattern.patt'>
         <a-image src="#my-image"></a-image>
+      </a-marker>
+    -->
+    <!-- for 3D Object
+      <a-marker type='pattern' url='pattern.patt'>
+        <a-entity gltf-model="#modelgltf"></a-entity>
+        <a-entity obj-model="obj: #tree-obj; mtl: #tree-mtl"></a-entity>
+      </a-marker>
+    -->
+    <!-- for Video
+      <a-marker type='pattern' url='pattern.patt'>
+        <a-video src="#penguin-sledding" width="16" height="9" position="-90 0 0"></a-video>
+      </a-marker>
+    -->
+    <!-- for Sound
+      <a-marker type='pattern' url='pattern.patt'>
+        <a-sound src="src: url(xxx.mp3)" autoplay="true" position="0 2 5"></a-sound>
       </a-marker>
     -->
 
