@@ -62,3 +62,7 @@ typings/
 
 # models
 !models/**/*.obj
+
+# my
+patterns/*
+ar/*

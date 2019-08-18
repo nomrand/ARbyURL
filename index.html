@@ -2,113 +2,24 @@
 <html>
 
 <head>
-<script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
-<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.7/aframe/build/aframe-ar.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="js/data.js"></script>
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.7/aframe/build/aframe-ar.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
 </head>
 
 <script type="text/javascript">
   $(function () {
-    let aassets = $("a-assets");
-
-    for (let i = 0; i < data.length; i++) {
-      let assetName = data[i];
-      // a-camera
-      // for barcode marker
-      // markers created by "http://au.gmented.com/app/marker/marker.php"
-      let amarker = $("<a-marker type='barcode' value='" + i + "'>");
-      $("a-scene").append(amarker);
-      // idnum will be 3 digit
-      let idnum = "000" + i;
-      idnum = idnum.substring(idnum.length - 3, idnum.length);
-
-      if (assetName.endsWith(".jpeg") || assetName.endsWith(".jpg") || assetName.endsWith(".gif")
-        || assetName.endsWith(".bmp") || assetName.endsWith(".png")) {
-        // image asset
-        let img = $("<img crossorigin='anonymous'>");
-        let idstr = "img" + idnum;
-        img.attr("id", idstr);
-        img.attr("src", assetName);
-
-        img.on("load", function () {
-          // a-image using asset
-          // to get width/height, creation must start after asset loaded
-          let aimage = $("<a-image>");
-          aimage.attr("src", "#" + idstr);
-          let params = $(location).attr('search');
-          if (params.indexOf('rotatex=yes') > 0) {
-            // AR on the marker
-            aimage.attr("rotation", "-90 0 0");
-          }
-
-          // get width/height ratio (AR image will have same size as marker)
-          let orgsize = 200;
-          let h = this.height / orgsize;
-          let w = this.width / orgsize;
-          h = Math.round(h * 100) / 100;
-          w = Math.round(w * 100) / 100;
-          aimage.attr("width", w);
-          aimage.attr("height", h);
-          amarker.append(aimage);
-        });
-        aassets.append(img);
-      }
-
-      if (assetName.endsWith(".glb") || assetName.endsWith(".gltf")) {
-        // 3d asset
-        let asset = $("<a-asset-item>");
-        asset.attr("id", "obj" + idnum);
-        asset.attr("src", assetName);
-        aassets.append(asset);
-
-        let primitive = $("<a-entity gltf-model=#obj" + idnum + " />");
-        amarker.append(primitive);
-      }
-    }
+    createAllMarker(data, $("a-scene"));
   });
 </script>
 
 <body style='margin : 0px; overflow: hidden;'>
-  <a-scene embedded arjs='detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5; debugUIEnabled:false;'>
-    <!-- ASSETS (resources) -->
-    <a-assets>
-      <!-- for Image
-        <img id="my-image" src="image.png">
-      -->
-      <!-- for 3D Object
-        <a-asset-item id="crate-obj" src="crate.obj"></a-asset-item>
-        <a-asset-item id="crate-mtl" src="crate.mtl"></a-asset-item>
-        <a-asset-item id="modelgltf" src="xxx.gltf"></a-asset-item>
-      -->
-      <!-- for Video
-        <video id="penguin-sledding" autoplay loop="true" src="penguin-sledding.mp4"></video>
-      -->
-    </a-assets>
-
-    <!-- PRIMITIVES (AR displayed images) -->
-    <!-- for Image
-      <a-marker type='barcode' value='xxx'>
-        <a-image src="#my-image"></a-image>
-      </a-marker>
-    -->
-    <!-- for 3D Object
-      <a-marker type='barcode' value='xxx'>
-        <a-entity gltf-model="#modelgltf"></a-entity>
-        <a-entity obj-model="obj: #tree-obj; mtl: #tree-mtl"></a-entity>
-      </a-marker>
-    -->
-    <!-- for Video
-      <a-marker type='barcode' value='xxx'>
-        <a-video src="#penguin-sledding" width="16" height="9" position="-90 0 0"></a-video>
-      </a-marker>
-    -->
-    <!-- for Sound
-      <a-marker type='barcode' value='xxx'>
-        <a-sound src="src: url(xxx.mp3)" autoplay="true" position="0 2 5"></a-sound>
-      </a-marker>
-    -->
-
+  <a-scene embedded
+    arjs='debugUIEnabled:false; patternRatio:0.80; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5;'>
     <!-- CAMERA -->
     <a-entity camera></a-entity>
   </a-scene>
