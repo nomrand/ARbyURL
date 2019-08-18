@@ -42,10 +42,9 @@ function createAllMarker(data, sceneElement) {
                 let aimage = $("<a-image>");
                 aimage.attr("src", "#" + idstr);
 
-                if (typeof data[i].rotate !== "undefined") {
-                    // AR on the marker
-                    aimage.attr("rotation", data[i].rotate);
-                }
+                // image rotation
+                let rotate = data[i].rotate ? data[i].rotate : "-90 0 0";
+                aimage.attr("rotation", rotate);
 
                 if (!IS_FIT_AR_ON_MARKER) {
                     // get width / height ratio(AR image will have same size as marker)
